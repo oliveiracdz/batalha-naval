@@ -1,27 +1,50 @@
-export default class Coordenada {
+export class Coordenada {
     constructor(public x: number, public y: number) {
 
     }
 
-    clicada: boolean;
+    static random = (): Coordenada => {
+        const x = Math.round(Math.random() * 10);
+        const y = Math.round(Math.random() * 10);
 
-    clicar = () => this.clicada = true
+        return new Coordenada(x, y);
+    }
+}
+
+export class Celula extends Coordenada {
+    constructor(public x: number, public y: number, public isBarco: boolean) {
+        super(x, y);
+    }
+
+    isRevelado: boolean = false;
+
+    revelar = () => this.isRevelado = true
+}
+
+export enum Direcao {
+    Horizontal = 0,
+    Vertical = 1
 }
 
 export class Barco {
+    public coordenadas: Coordenada[]
 
-    constructor(public coordenadas: Coordenada[]) {
-
-    }
-
-    static horizontal = (inicio: Coordenada): Barco => {
+    constructor(inicio: Coordenada, direcao: Direcao) {
         const coordenadas = []
-        for (let i = 0; i < 3; i++) {
-            coordenadas.push(new Coordenada(inicio.x + i, inicio.y))
+        const isHorizontal = direcao === Direcao.Horizontal
+        const isVertical = direcao === Direcao.Vertical
+        const largura = Math.random() > 0.7 ? 3 : 2
 
+        console.log(largura);
+
+
+        for (let i = 0; i < largura; i++) {
+            const x = isHorizontal ? inicio.x + i : inicio.x
+            const y = isVertical ? inicio.y + i : inicio.y
+
+            coordenadas.push(new Coordenada(x, y))
         }
-        console.log(coordenadas);
 
-        return new Barco(coordenadas);
+        this.coordenadas = coordenadas;
     }
 }
