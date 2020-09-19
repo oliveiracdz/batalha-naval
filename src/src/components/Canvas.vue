@@ -3,7 +3,8 @@
 </template>
 
 <script lang="ts">
-    import { Celula, Coordenada, Barco, Direcao } from "../services";
+    import { Celula, Coordenada, Barco, Direcao } from "../models";
+    import { Renderer } from "../services";
     import { ref, onMounted } from "vue";
 
     const probability = 0.8;
@@ -13,21 +14,9 @@
             const canvas = ref<HTMLCanvasElement>(null);
             const celulas: Celula[] = [];
             let context: CanvasRenderingContext2D;
-
-            const render = () => {
-                celulas.forEach((element) => {
-                    context.fillStyle = !element.isRevelado
-                        ? "#eaea3c"
-                        : element.isBarco
-                        ? "green"
-                        : "blue";
-                    context.fillRect(element.x, element.y, 1, 1);
-                });
-            };
+            let renderer: Renderer;
 
             onMounted(() => {
-                context = canvas.value.getContext("2d");
-
                 const range = [...Array(10).keys()];
                 const barcos: Barco[] = range.map(
                     (i) => new Barco(Coordenada.random(), (i % 2) as Direcao)
@@ -47,7 +36,10 @@
                     }
                 }
 
-                render();
+                context = canvas.value.getContext("2d");
+                renderer = new Renderer(context, celulas);
+
+                renderer.render();
             });
 
             const click = (event) => {
@@ -60,11 +52,10 @@
 
                 const celula = celulas.find((p) => p.x === x && p.y === y);
                 celula.revelar();
-                render();
+                renderer.render();
             };
 
             return {
-                render,
                 canvas,
 
                 click,
