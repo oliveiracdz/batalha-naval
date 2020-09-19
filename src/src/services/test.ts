@@ -1,14 +1,27 @@
 export default class Coordenada {
-    constructor(public x: number, public y: number, public color: string) {
+    constructor(public x: number, public y: number) {
 
     }
 
     clicada: boolean;
 
-    render(canvas: CanvasRenderingContext2D) {
-        canvas.fillStyle = this.clicada ? this.color : 'green'
-        canvas.fillRect(this.x, this.y, 1, 1);
+    clicar = () => this.clicada = true
+}
+
+export class Barco {
+
+    constructor(public coordenadas: Coordenada[]) {
+
     }
 
-    clicar = () => this.clicada = true
+    static horizontal = (inicio: Coordenada): Barco => {
+        const coordenadas = []
+        for (let i = 0; i < 3; i++) {
+            coordenadas.push(new Coordenada(inicio.x + i, inicio.y))
+
+        }
+        console.log(coordenadas);
+
+        return new Barco(coordenadas);
+    }
 }

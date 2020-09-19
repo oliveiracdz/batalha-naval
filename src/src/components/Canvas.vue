@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-    import Celula from "../services/test";
+    import Coordenada, { default as Celula, Barco } from "../services/test";
     import { ref, onMounted } from "vue";
 
     const probability = 0.8;
@@ -21,11 +21,21 @@
             onMounted(() => {
                 context = canvas.value.getContext("2d");
 
-                for (let i = 0; i < 10; i++) {
-                    for (let j = 0; j < 10; j++) {
-                        const color = Math.random() > probability ? "red" : "blue";
-                        const element = new Celula(i, j, color);
-                        cells.push(element);
+                const barcos: Barco[] = [Barco.horizontal(new Coordenada(0, 0))];
+
+                const coordenadas = barcos
+                    .map((p) => p.coordenadas)
+                    .reduce((p, q) => p.concat(q), []);
+
+                for (let x = 0; x < 10; x++) {
+                    for (let y = 0; y < 10; y++) {
+                        const isBarco = coordenadas.find(
+                            (p) => p.x === x && p.y === y
+                        );
+
+                        context.fillStyle = isBarco ? "green" : "blue";
+                        // canvas.fillStyle = this.clicada ? this.color : 'green'
+                        context.fillRect(x, y, 1, 1);
                     }
                 }
 
