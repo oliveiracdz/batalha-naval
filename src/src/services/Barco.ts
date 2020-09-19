@@ -1,30 +1,5 @@
-export class Coordenada {
-    constructor(public x: number, public y: number) {
-
-    }
-
-    static random = (): Coordenada => {
-        const x = Math.round(Math.random() * 10);
-        const y = Math.round(Math.random() * 10);
-
-        return new Coordenada(x, y);
-    }
-}
-
-export class Celula extends Coordenada {
-    constructor(public x: number, public y: number, public isBarco: boolean) {
-        super(x, y);
-    }
-
-    isRevelado: boolean = false;
-
-    revelar = () => this.isRevelado = true
-}
-
-export enum Direcao {
-    Horizontal = 0,
-    Vertical = 1
-}
+import { Coordenada } from './Coordenada'
+import { Direcao } from './Direcao'
 
 export class Barco {
     public coordenadas: Coordenada[]

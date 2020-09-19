@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-    import { Celula, Coordenada, Barco, Direcao } from "../services/test";
+    import { Celula, Coordenada, Barco, Direcao } from "../services";
     import { ref, onMounted } from "vue";
 
     const probability = 0.8;
