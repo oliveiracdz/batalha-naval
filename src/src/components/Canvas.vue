@@ -4,7 +4,7 @@
 
 <script lang="ts">
     import { Celula, Coordenada, Barco, Direcao } from "../models";
-    import { Renderer } from "../services";
+    import { Game, Renderer } from "../services";
     import { ref, onMounted } from "vue";
 
     const probability = 0.8;
@@ -12,52 +12,23 @@
     export default {
         setup(props) {
             const canvas = ref<HTMLCanvasElement>(null);
-            const celulas: Celula[] = [];
-            let context: CanvasRenderingContext2D;
+            const game = new Game();
             let renderer: Renderer;
 
             onMounted(() => {
-                const range = [...Array(10).keys()];
-                const barcos: Barco[] = range.map(
-                    (i) => new Barco(Coordenada.random(), (i % 2) as Direcao)
-                );
-
-                const coordenadas = barcos
-                    .map((p) => p.coordenadas)
-                    .reduce((p, q) => p.concat(q), []);
-
-                for (let x = 0; x < 10; x++) {
-                    for (let y = 0; y < 10; y++) {
-                        const isBarco = coordenadas.some(
-                            (p) => p.x === x && p.y === y
-                        );
-
-                        celulas.push(new Celula(x, y, isBarco));
-                    }
-                }
-
-                context = canvas.value.getContext("2d");
-                renderer = new Renderer(context, celulas);
+                renderer = new Renderer(canvas.value, game.celulas);
 
                 renderer.render();
             });
 
-            const click = (event) => {
-                const rect = canvas.value.getBoundingClientRect();
-                const point1 = event.clientX - rect.left;
-                const point2 = event.clientY - rect.top;
-
-                const x = Math.ceil(point1 / 40) - 1;
-                const y = Math.ceil(point2 / 40) - 1;
-
-                const celula = celulas.find((p) => p.x === x && p.y === y);
-                celula.revelar();
+            const click = (event: MouseEvent) => {
+                const { x, y } = renderer.getPoint(event);
+                game.revelar(x, y);
                 renderer.render();
             };
 
             return {
                 canvas,
-
                 click,
             };
         },

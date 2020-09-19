@@ -5,7 +5,7 @@ export class Celula extends Coordenada {
         super(x, y);
     }
 
-    isRevelado: boolean = true;
+    isRevelado: boolean = false;
 
     revelar = () => this.isRevelado = true
 }
