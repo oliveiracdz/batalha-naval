@@ -3,9 +3,9 @@ export class Coordenada {
 
     }
 
-    static random = (): Coordenada => {
-        const x = Math.round(Math.random() * 10);
-        const y = Math.round(Math.random() * 10);
+    static random = (linhas: number, colunas: number): Coordenada => {
+        const x = Math.round(Math.random() * colunas);
+        const y = Math.round(Math.random() * linhas);
 
         return new Coordenada(x, y);
     }

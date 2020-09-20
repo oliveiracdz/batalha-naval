@@ -10,7 +10,10 @@ export class Renderer {
     private context: CanvasRenderingContext2D
 
     render() {
-        this.celulas.forEach(p => this.renderizarCelula(p));
+        this.celulas.forEach(celula => {
+            this.context.fillStyle = this.getColor(celula);
+            this.context.fillRect(celula.x, celula.y, 1, 1);
+        });
     }
 
     getPoint(event: MouseEvent): Coordenada {
@@ -22,11 +25,6 @@ export class Renderer {
         const y = Math.ceil(point2 / 40) - 1;
 
         return new Coordenada(x, y)
-    }
-
-    private renderizarCelula(celula: Celula) {
-        this.context.fillStyle = this.getColor(celula);
-        this.context.fillRect(celula.x, celula.y, 1, 1);
     }
 
     private getColor(celula: Celula) {

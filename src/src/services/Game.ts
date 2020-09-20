@@ -4,7 +4,7 @@ export class Game {
     public celulas: Celula[] = []
     public barcos: Barco[]
 
-    constructor() {
+    constructor(public linhas: number, public colunas: number, private barcosQtd: number = 15) {
         this.criarBarcos()
     }
 
@@ -14,17 +14,17 @@ export class Game {
     }
 
     private criarBarcos() {
-        const range = [...Array(10).keys()];
+        const range = [...Array(this.barcosQtd).keys()];
         this.barcos = range.map(
-            (i) => new Barco(Coordenada.random(), (i % 2) as Direcao)
+            (i) => new Barco(Coordenada.random(this.linhas, this.colunas), (i % 2) as Direcao)
         );
 
         const coordenadas = this.barcos
             .map((p) => p.coordenadas)
             .reduce((p, q) => p.concat(q), []);
 
-        for (let x = 0; x < 10; x++) {
-            for (let y = 0; y < 10; y++) {
+        for (let x = 0; x < this.colunas; x++) {
+            for (let y = 0; y < this.linhas; y++) {
                 const isBarco = coordenadas.some(
                     (p) => p.x === x && p.y === y
                 );
