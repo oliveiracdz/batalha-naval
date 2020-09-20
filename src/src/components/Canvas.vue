@@ -1,63 +1,49 @@
 <template>
-    <canvas ref="canvas" height="10" width="10" @click="click"></canvas>
+    <canvas ref="canvas"
+        :height="game.linhas"
+        :width="game.colunas"
+        :style="style"
+        @click="click">
+    </canvas>
+
 </template>
 
 <script lang="ts">
-    import Celula from "../services/test";
+    import { Celula, Coordenada, Barco, Direcao } from "../models";
+    import { Game, Renderer } from "../services";
     import { ref, onMounted } from "vue";
-
-    const probability = 0.8;
 
     export default {
         setup(props) {
             const canvas = ref<HTMLCanvasElement>(null);
-            const cells: Celula[] = [];
-            let context: CanvasRenderingContext2D;
-
-            const render = () => {
-                cells.forEach((element) => element.render(context));
-            };
+            const game = new Game(10, 23);
+            let renderer: Renderer;
 
             onMounted(() => {
-                context = canvas.value.getContext("2d");
-
-                for (let i = 0; i < 10; i++) {
-                    for (let j = 0; j < 10; j++) {
-                        const color = Math.random() > probability ? "red" : "blue";
-                        const element = new Celula(i, j, color);
-                        cells.push(element);
-                    }
-                }
-
-                render();
+                renderer = new Renderer(canvas.value, game.celulas);
+                renderer.render();
             });
 
-            const click = (event) => {
-                const rect = canvas.value.getBoundingClientRect();
-                const point1 = event.clientX - rect.left;
-                const point2 = event.clientY - rect.top;
-
-                const x = Math.ceil(point1 / 40) - 1;
-                const y = Math.ceil(point2 / 40) - 1;
-
-                const celula = cells.find((p) => p.x === x && p.y === y);
-                celula.clicar();
-                render();
+            const click = (event: MouseEvent) => {
+                const { x, y } = renderer.getPoint(event);
+                game.revelar(x, y);
+                renderer.render();
             };
 
             return {
-                render,
+                game,
                 canvas,
-
                 click,
+                style: {
+                    width: 40 * game.colunas + "px",
+                    height: 40 * game.linhas + "px",
+                },
             };
         },
     };
 </script>
 <style>
     canvas {
-        width: 400px;
-        height: 400px;
         image-rendering: -moz-crisp-edges;
         image-rendering: -webkit-crisp-edges;
         image-rendering: pixelated;
