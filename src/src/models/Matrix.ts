@@ -15,13 +15,13 @@ export class Matrix extends Array<Array<Celula>> {
 
 
     public exists(x: number, y: number): boolean {
-        return this[x] && !!this[x][y]
+        return this[y] && !!this[y][x]
     }
 
     public isEmpty(x: number, y: number): boolean {
         if (!this.exists(x, y))
             return false;
 
-        return !this[x][y].isBarco
+        return !this[y][x].isBarco
     }
 }

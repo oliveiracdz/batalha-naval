@@ -17,7 +17,7 @@ export class Game {
     }
 
     private criarBarcos() {
-        const barcoQuantidade = this.colunas
+        const barcoQuantidade = this.colunas * 2
         this.matrix = new Matrix(this.linhas, this.colunas)
 
         for (let i = 0; i < barcoQuantidade; i++) {
@@ -26,7 +26,7 @@ export class Game {
             if (!barco)
                 continue;
 
-            barco.celulas.forEach(c => this.matrix[c.x][c.y] = c)
+            barco.celulas.forEach(c => this.matrix[c.y][c.x] = c)
 
             this.barcos.push(barco)
         }

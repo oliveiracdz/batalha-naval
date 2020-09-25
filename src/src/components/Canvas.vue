@@ -26,7 +26,7 @@
 
     export default {
         setup(props) {
-            const game = ref(new Game(10, 10));
+            const game = ref(new Game(10, 15));
 
             return {
                 game,
