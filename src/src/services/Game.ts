@@ -1,36 +1,55 @@
-import { Barco, Celula, Coordenada, Direcao } from '../Models'
+import { getTransitionRawChildren } from 'vue'
+import { Barco, Celula, Coordenada, Direcao, Matrix } from '../Models'
 
 export class Game {
-    public celulas: Celula[] = []
-    public barcos: Barco[]
+    public celulas = {}
+    public barcos: Barco[] = []
+    public matrix: Matrix
 
-    constructor(public linhas: number, public colunas: number, private barcosQtd: number = 15) {
+    constructor(public linhas: number, public colunas: number) {
         this.criarBarcos()
     }
 
     public revelar(x: number, y: number) {
-        const celula = this.celulas.find((p) => p.x === x && p.y === y);
+        const celula = this.matrix[x][y];
+
         celula.revelar();
     }
 
     private criarBarcos() {
-        const range = [...Array(this.barcosQtd).keys()];
-        this.barcos = range.map(
-            (i) => new Barco(Coordenada.random(this.linhas, this.colunas), (i % 2) as Direcao)
-        );
+        const barcoQuantidade = this.colunas
+        this.matrix = new Matrix(this.linhas, this.colunas)
 
-        const coordenadas = this.barcos
-            .map((p) => p.coordenadas)
-            .reduce((p, q) => p.concat(q), []);
+        for (let i = 0; i < barcoQuantidade; i++) {
+            const barco = this.criarBarco()
 
-        for (let x = 0; x < this.colunas; x++) {
-            for (let y = 0; y < this.linhas; y++) {
-                const isBarco = coordenadas.some(
-                    (p) => p.x === x && p.y === y
-                );
+            if (!barco)
+                continue;
 
-                this.celulas.push(new Celula(x, y, isBarco));
-            }
+            barco.celulas.forEach(c => this.matrix[c.x][c.y] = c)
+
+            this.barcos.push(barco)
         }
+    }
+
+    private criarBarco() {
+        const celulas = [];
+        const probalidade = Math.random()
+        const comprimento = probalidade * 3
+        const direcao = probalidade > 0.5 ? Direcao.Horizontal : Direcao.Vertical
+
+        let { x, y } = Coordenada.random(this.linhas, this.colunas)
+
+        for (let i = 0; i < comprimento; i++) {
+            const x1 = direcao == Direcao.Vertical ? x + i : x
+            const y1 = direcao != Direcao.Vertical ? y + i : y
+
+            if (!this.matrix.isEmpty(x1, y1))
+                return null;
+
+            celulas.push(new Celula(x1, y1, `B${i}`))
+        }
+
+        return new Barco(celulas)
     }
 }

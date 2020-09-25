@@ -1,52 +1,66 @@
 <template>
-    <canvas ref="canvas"
-        :height="game.linhas"
-        :width="game.colunas"
-        :style="style"
-        @click="click">
-    </canvas>
+    <div class="grid">
+        <div id="layout">
+            <table border="0" cellspacing="0" cellpadding="0">
+                <tr v-for="(row,x) in game.matrix" :key="x">
+                    <td v-for="(celula,y) in row" :key="y" @click="celula.revelar(y,x)" :class="celula">
+                        {{x}},
+                        {{y}}
+                        {{celula.value}}
+                    </td>
+                </tr>
+            </table>
 
+            <div>
+                <ul>
+                    <li v-for="(barco, index) in game.barcos" :key="index">{{barco.nome}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script lang="ts">
-    import { Celula, Coordenada, Barco, Direcao } from "../models";
-    import { Game, Renderer } from "../services";
-    import { ref, onMounted } from "vue";
+    import { Game } from "../services";
+    import { ref } from "vue";
 
     export default {
         setup(props) {
-            const canvas = ref<HTMLCanvasElement>(null);
-            const game = new Game(10, 23);
-            let renderer: Renderer;
-
-            onMounted(() => {
-                renderer = new Renderer(canvas.value, game.celulas);
-                renderer.render();
-            });
-
-            const click = (event: MouseEvent) => {
-                const { x, y } = renderer.getPoint(event);
-                game.revelar(x, y);
-                renderer.render();
-            };
+            const game = ref(new Game(10, 10));
 
             return {
                 game,
-                canvas,
-                click,
-                style: {
-                    width: 40 * game.colunas + "px",
-                    height: 40 * game.linhas + "px",
-                },
             };
         },
     };
 </script>
-<style>
-    canvas {
-        image-rendering: -moz-crisp-edges;
-        image-rendering: -webkit-crisp-edges;
-        image-rendering: pixelated;
-        image-rendering: crisp-edges;
+
+<style lang="scss" scoped>
+    .grid {
+        display: grid;
+    }
+
+    #layout {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        margin: 0 auto;
+    }
+
+    table {
+        margin: 0 auto;
+        border: 0;
+        text-align: center;
+    }
+
+    td {
+        border: solid 1px #e8e83e;
+        background-color: yellow;
+        cursor: pointer;
+        height: 40px;
+        width: 40px;
+
+        &.isBarco {
+            background-color: green;
+        }
     }
 </style>

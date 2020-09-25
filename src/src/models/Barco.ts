@@ -1,22 +1,17 @@
-import { Coordenada } from './Coordenada'
-import { Direcao } from './Direcao'
+import { Celula } from './'
 
 export class Barco {
-    public coordenadas: Coordenada[]
 
-    constructor(inicio: Coordenada, direcao: Direcao) {
-        const coordenadas = []
-        const isHorizontal = direcao === Direcao.Horizontal
-        const isVertical = direcao === Direcao.Vertical
-        const largura = Math.random() > 0.7 ? 3 : 2
+    constructor(public celulas: Celula[]) { }
 
-        for (let i = 0; i < largura; i++) {
-            const x = isHorizontal ? inicio.x + i : inicio.x
-            const y = isVertical ? inicio.y + i : inicio.y
-
-            coordenadas.push(new Coordenada(x, y))
+    public get localizado() { return this.celulas.every(p => p.isRevelado); }
+    public get comprimento() { return this.celulas.length; }
+    public get nome() {
+        switch (this.comprimento) {
+            case 2: return 'Fragata';
+            case 3: return 'Cruzador';
+            default: return 'Barco';
         }
-
-        this.coordenadas = coordenadas;
     }
+
 }

@@ -1,11 +1,11 @@
-import { Coordenada } from './Coordenada'
-
-export class Celula extends Coordenada {
-    constructor(public x: number, public y: number, public isBarco: boolean) {
-        super(x, y);
+export class Celula {
+    constructor(public x: number, public y: number, public value: string) {
     }
 
     isRevelado: boolean = false;
+    isBarco = this.value?.startsWith('B')
 
-    revelar = () => this.isRevelado = true
+    revelar = function () {
+        this.isRevelado = true;
+    }
 }
