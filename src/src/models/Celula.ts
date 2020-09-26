@@ -1,5 +1,7 @@
+import { Direcao } from '../Models'
+
 export class Celula {
-    constructor(public x: number, public y: number, public value: string) {
+    constructor(public x: number, public y: number, public direcao: Direcao, public value: string) {
     }
 
     isRevelado: boolean = false;

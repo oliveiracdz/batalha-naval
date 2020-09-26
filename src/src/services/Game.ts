@@ -1,4 +1,3 @@
-import { getTransitionRawChildren } from 'vue'
 import { Barco, Celula, Coordenada, Direcao, Matrix } from '../Models'
 
 export class Game {
@@ -34,9 +33,8 @@ export class Game {
 
     private criarBarco() {
         const celulas = [];
-        const probalidade = Math.random()
-        const comprimento = probalidade * 3
-        const direcao = probalidade > 0.5 ? Direcao.Horizontal : Direcao.Vertical
+        const comprimento = Math.floor(Math.random() * 3) + 1
+        const direcao = Math.random() > 0.5 ? Direcao.Horizontal : Direcao.Vertical
 
         let { x, y } = Coordenada.random(this.linhas, this.colunas)
 
@@ -47,7 +45,7 @@ export class Game {
             if (!this.matrix.isEmpty(x1, y1))
                 return null;
 
-            celulas.push(new Celula(x1, y1, `B${i}`))
+            celulas.push(new Celula(x1, y1, direcao, `B${i + 1}_${comprimento}`))
         }
 
         return new Barco(celulas)
