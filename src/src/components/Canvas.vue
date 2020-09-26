@@ -3,18 +3,19 @@
         <div id="layout">
             <table border="0" cellspacing="0" cellpadding="0">
                 <tr v-for="(row,x) in game.matrix" :key="x">
-                    <td v-for="(celula,y) in row" :key="y" @click="celula.revelar(y,x)" :class="celula">
+                    <td v-for="(celula,y) in row" :key="y" @click="game.revelar(x,y)" :class="celula">
                         {{x}},
                         {{y}}
-                        {{celula.value}}
+                        {{celula.isRevelado}}
                     </td>
                 </tr>
             </table>
 
             <div>
                 <ul>
-                    <li v-for="(barco, index) in game.barcos" :key="index">{{barco.nome}}</li>
+                    <BarcoNome v-for="(barco, index) in game.barcos" :key="index" :value="barco"></BarcoNome>
                 </ul>
+                <pre>{{game.barcos}}</pre>
             </div>
         </div>
     </div>
@@ -23,6 +24,7 @@
 <script lang="ts">
     import { Game } from "../services";
     import { ref } from "vue";
+    import BarcoNome from "./BarcoNome.vue";
 
     export default {
         setup(props) {
@@ -31,6 +33,9 @@
             return {
                 game,
             };
+        },
+        components: {
+            BarcoNome,
         },
     };
 </script>
