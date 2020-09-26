@@ -4,9 +4,6 @@
             <table border="0" cellspacing="0" cellpadding="0">
                 <tr v-for="(row,x) in game.matrix" :key="x">
                     <td v-for="(celula,y) in row" :key="y" @click="game.revelar(x,y)" :class="celula">
-                        {{x}},
-                        {{y}}
-                        {{celula.isRevelado}}
                     </td>
                 </tr>
             </table>
@@ -55,14 +52,22 @@
     }
 
     td {
-        border: solid 1px #e8e83e;
-        background-color: yellow;
-        cursor: pointer;
         height: 40px;
         width: 40px;
+        cursor: pointer;
+        background-image: none;
+        background-color: yellow;
+        border: solid 1px #e8e83e;
 
-        &.isBarco {
-            background-color: green;
+        &.isRevelado {
+            border: none;
+            background-color: #3197ff7d;
+
+            &.isBarco {
+                background-image: url("https://images.vexels.com/media/users/3/137945/isolated/preview/fbeb505577b4a8b8b87018f254d43c7e---cone-de-transporte-de-barco-by-vexels.png");
+                background-repeat: no-repeat;
+                background-size: contain;
+            }
         }
     }
 </style>
