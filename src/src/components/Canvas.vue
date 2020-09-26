@@ -12,10 +12,7 @@
             </table>
 
             <div>
-                <ul>
-                    <BarcoNome v-for="(barco, index) in game.barcos" :key="index" :value="barco"></BarcoNome>
-                </ul>
-                <pre>{{game.barcos}}</pre>
+                <BarcoPainel :value="game.barcos" />
             </div>
         </div>
     </div>
@@ -24,7 +21,7 @@
 <script lang="ts">
     import { Game } from "../services";
     import { ref } from "vue";
-    import BarcoNome from "./BarcoNome.vue";
+    import BarcoPainel from "./barco-painel/BarcoPainel.vue";
 
     export default {
         setup(props) {
@@ -35,7 +32,7 @@
             };
         },
         components: {
-            BarcoNome,
+            BarcoPainel,
         },
     };
 </script>
