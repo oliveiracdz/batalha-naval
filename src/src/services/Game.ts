@@ -6,6 +6,7 @@ export class Game {
     public matrix: Matrix
 
     constructor(public linhas: number, public colunas: number) {
+        this.matrix = new Matrix(this.linhas, this.colunas)
         this.criarBarcos()
     }
 
@@ -16,34 +17,18 @@ export class Game {
     }
 
     private criarBarcos() {
-        const barcoQuantidade = this.colunas * 2
-        this.matrix = new Matrix(this.linhas, this.colunas)
+        let barcoQuantidade = this.colunas
 
-        for (let i = 0; i < barcoQuantidade; i++) {
-            const barco = this.criarBarco()
+        while (barcoQuantidade > 0) {
+            const comprimento = Math.floor(Math.random() * 3) + 1
+            const direcao = Math.random() > 0.5 ? Direcao.Horizontal : Direcao.Vertical
+            const { x, y } = this.matrix.random()
+            const barco = this.matrix.addBarco(x, y, direcao, comprimento)
 
-            if (!barco)
-                continue;
-
-            if (this.matrix.addBarco(barco))
+            if (barco) {
                 this.barcos.push(barco)
+                barcoQuantidade--;
+            }
         }
-    }
-
-    private criarBarco() {
-        const celulas = [];
-        const comprimento = Math.floor(Math.random() * 3) + 1
-        const direcao = Math.random() > 0.5 ? Direcao.Horizontal : Direcao.Vertical
-
-        let { x, y } = this.matrix.random()
-
-        for (let i = 0; i < comprimento; i++) {
-            const x1 = direcao == Direcao.Vertical ? x + i : x
-            const y1 = direcao != Direcao.Vertical ? y + i : y
-
-            celulas.push(new Celula(x1, y1, direcao, `B${i + 1}_${comprimento}`))
-        }
-
-        return new Barco(celulas)
     }
 }

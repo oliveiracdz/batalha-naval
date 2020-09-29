@@ -1,4 +1,4 @@
-import { Barco, Celula } from '../Models'
+import { Barco, Celula, Direcao } from '../Models'
 
 export class Matrix {
 
@@ -16,13 +16,22 @@ export class Matrix {
         return this.lista.find(p => p.x == x && p.y == y)
     }
 
-    public addBarco(barco: Barco) {
-        if (barco.celulas.every(p => this.canPush(p.x, p.y))) {
-            barco.celulas.forEach(p => this.push(p))
-            return true
+    public addBarco(x: number, y: number, direcao: Direcao, comprimento: number) {
+        const celulas = [];
+
+        for (let i = 0; i < comprimento; i++) {
+            const x1 = direcao == Direcao.Vertical ? x + i : x
+            const y1 = direcao != Direcao.Vertical ? y + i : y
+
+            if (!this.canPush(x1, y1))
+                return null;
+
+            celulas.push(new Celula(x1, y1, direcao, `B${i + 1}_${comprimento}`))
         }
 
-        return false
+        celulas.forEach(p => this.push(p))
+
+        return new Barco(celulas)
     }
 
     private canPush(x: number, y: number): boolean {

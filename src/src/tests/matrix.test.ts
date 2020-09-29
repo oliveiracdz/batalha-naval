@@ -1,4 +1,4 @@
-import { Barco, Celula } from '../Models';
+import { Barco, Celula, Direcao } from '../Models';
 import { Matrix } from '../models/Matrix'
 
 describe('matrix', () => {
@@ -18,5 +18,18 @@ describe('matrix', () => {
 
         expect(matrix.find(2, 1)).toBe(undefined);
         expect(matrix.find(1, 2)).toBe(undefined);
+    })
+
+    it('adiciona células do barco', () => {
+        const matrix = new Matrix(2, 2)
+
+        expect(matrix.addBarco(0, 1, Direcao.Vertical, 2).celulas).toHaveLength(2);
+    })
+
+    it('não sobrescreve células já preenchidas', () => {
+        const matrix = new Matrix(2, 2)
+
+        expect(matrix.addBarco(0, 1, Direcao.Vertical, 2).celulas).toHaveLength(2);
+        expect(matrix.addBarco(1, 1, Direcao.Vertical, 1)).toBe(null);
     })
 })
