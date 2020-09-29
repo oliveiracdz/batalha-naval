@@ -2,8 +2,8 @@
     <div class="grid">
         <div id="layout">
             <table border="0" cellspacing="0" cellpadding="0">
-                <tr v-for="(row,x) in game.matrix" :key="x">
-                    <BarcoCelula v-for="(celula,y) in row" :key="y" :value="celula" @click="game.revelar(x,y)" />
+                <tr v-for="(row,y) in game.matrix.linhas" :key="y">
+                    <BarcoCelula v-for="(celula,x) in game.matrix.colunas" :key="x" :value="game.matrix.find(x,y)" @click="game.revelar(x,y)" />
                 </tr>
             </table>
 

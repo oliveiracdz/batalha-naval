@@ -10,7 +10,7 @@ export class Game {
     }
 
     public revelar(x: number, y: number) {
-        const celula = this.matrix[x][y];
+        const celula = this.matrix.find(x, y)
 
         celula.revelar();
     }
@@ -25,9 +25,8 @@ export class Game {
             if (!barco)
                 continue;
 
-            barco.celulas.forEach(c => this.matrix[c.y][c.x] = c)
-
-            this.barcos.push(barco)
+            if (this.matrix.addBarco(barco))
+                this.barcos.push(barco)
         }
     }
 
@@ -36,14 +35,11 @@ export class Game {
         const comprimento = Math.floor(Math.random() * 3) + 1
         const direcao = Math.random() > 0.5 ? Direcao.Horizontal : Direcao.Vertical
 
-        let { x, y } = Coordenada.random(this.linhas, this.colunas)
+        let { x, y } = this.matrix.random()
 
         for (let i = 0; i < comprimento; i++) {
             const x1 = direcao == Direcao.Vertical ? x + i : x
             const y1 = direcao != Direcao.Vertical ? y + i : y
-
-            if (!this.matrix.isEmpty(x1, y1))
-                return null;
 
             celulas.push(new Celula(x1, y1, direcao, `B${i + 1}_${comprimento}`))
         }
