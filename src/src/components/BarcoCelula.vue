@@ -17,7 +17,7 @@
                     [props.value.value]: true,
                     hasBarco: celula.isBarco,
                     vertical: celula.direcao != Direcao.Vertical,
-                    revelado: true, //props.value.isRevelado,
+                    revelado: props.value.isRevelado,
                 };
             });
 
