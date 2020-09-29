@@ -10,7 +10,7 @@ export class Barco {
         switch (this.comprimento) {
             case 2: return 'Fragata';
             case 3: return 'Cruzador';
-            default: return 'Barco';
+            default: return 'Submarino';
         }
     }
 
