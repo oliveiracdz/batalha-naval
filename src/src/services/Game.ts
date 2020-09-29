@@ -1,7 +1,6 @@
-import { Barco, Celula, Coordenada, Direcao, Matrix } from '../Models'
+import { Barco, Direcao, Matrix } from '../Models'
 
 export class Game {
-    public celulas = {}
     public barcos: Barco[] = []
     public matrix: Matrix
 
