@@ -13,11 +13,13 @@
             const classes = computed(function () {
                 const celula = props.value;
 
+                if (!celula.isRevelado) return {};
+
                 return {
-                    [props.value.value]: true,
+                    revelado: true,
                     hasBarco: celula.isBarco,
-                    vertical: celula.direcao != Direcao.Vertical,
-                    revelado: props.value.isRevelado,
+                    vertical: celula.isBarco && celula.direcao != Direcao.Vertical,
+                    [props.value.value]: celula.isBarco,
                 };
             });
 
