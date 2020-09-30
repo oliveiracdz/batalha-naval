@@ -40,7 +40,7 @@
         border: solid 1px #e8e83e;
 
         &.revelado {
-            border: none;
+            border-color: #3197ff7d;
             background-color: #3197ff7d;
 
             &.hasBarco {
