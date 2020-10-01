@@ -2,10 +2,6 @@ import { Barco, Celula, Direcao } from '../Models';
 import { Matrix } from '../models/Matrix'
 
 describe('matrix', () => {
-    const setup = () => {
-
-    }
-
     it('encontra ponto com coordenadas', () => {
         const matrix = new Matrix(2, 2)
 

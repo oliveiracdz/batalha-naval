@@ -1,4 +1,5 @@
 import { Barco, Direcao, Matrix } from '../Models'
+import { Random } from './Random'
 
 export class Game {
     public barcos: Barco[] = []
@@ -19,8 +20,8 @@ export class Game {
         let barcoQuantidade = this.colunas
 
         while (barcoQuantidade > 0) {
-            const comprimento = Math.floor(Math.random() * 3) + 1
-            const direcao = Math.random() > 0.5 ? Direcao.Horizontal : Direcao.Vertical
+            const comprimento = Random.between(1, 3)
+            const direcao = Random.between(0, 1) as Direcao.Horizontal
             const { x, y } = this.matrix.random()
             const barco = this.matrix.addBarco(x, y, direcao, comprimento)
 

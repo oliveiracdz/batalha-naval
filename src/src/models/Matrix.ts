@@ -1,4 +1,5 @@
 import { Barco, Celula, Direcao } from '../Models'
+import { Random } from '../services/Random';
 
 export class Matrix {
 
@@ -46,8 +47,8 @@ export class Matrix {
     }
 
     random = () => {
-        const x = Math.round(Math.random() * this.colunas - 1);
-        const y = Math.round(Math.random() * this.linhas - 1);
+        const x = Random.between(0, this.colunas - 1);
+        const y = Random.between(0, this.linhas - 1);
 
         return new Celula(x, y);
     }
