@@ -22,7 +22,7 @@
 
     export default {
         setup(props) {
-            const game = ref(new Game(10, 10));
+            const game = ref(new Game(8, 8));
 
             return {
                 game,
