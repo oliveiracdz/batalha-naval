@@ -42,7 +42,7 @@
 
     #layout {
         display: grid;
-        grid-template-columns: 1fr auto;
+        grid-template-rows: 1fr auto;
         margin: 0 auto;
     }
 
