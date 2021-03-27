@@ -8,7 +8,7 @@
 
 <script lang="ts">
     import { computed, PropType } from "vue";
-    import { Barco } from "../../Models";
+    import { Barco } from "../../models";
 
     export default {
         props: {

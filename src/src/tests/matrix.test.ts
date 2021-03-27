@@ -1,4 +1,4 @@
-import { Barco, Celula, Direcao } from '../Models';
+import { Barco, Celula, Direcao } from '../models';
 import { Matrix } from '../models/Matrix'
 
 describe('matrix', () => {

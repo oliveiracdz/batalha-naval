@@ -1,4 +1,4 @@
-import { Direcao } from '../Models'
+import { Direcao } from '../models'
 
 export class Celula {
     constructor(public x: number, public y: number, public direcao = Direcao.Horizontal, public value = `${x},${y}`) {

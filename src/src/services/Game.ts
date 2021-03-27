@@ -1,4 +1,4 @@
-import { Barco, Direcao, Matrix } from '../Models'
+import { Barco, Direcao, Matrix } from '../models'
 import { Random } from './Random'
 
 export class Game {
