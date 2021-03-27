@@ -4,7 +4,7 @@
 </template>
 
 <script lang="ts">
-    import { Celula, Direcao } from "../Models";
+    import { Celula, Direcao } from "../models";
     import { computed, PropType } from "vue";
 
     export default {
